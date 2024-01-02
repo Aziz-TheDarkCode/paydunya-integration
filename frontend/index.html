@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+    />
+    <title>PayDunya Form</title>
+  </head>
+  <body class="bg-gray-100 p-4">
+    <div class="max-w-md mx-auto bg-white p-8 border rounded-md shadow-md">
+      <h2 class="text-2xl font-semibold mb-4">PayDunya Checkout</h2>
+      <form id="paydunyaForm">
+        <div class="mb-4">
+          <label for="item" class="block text-gray-700 text-sm font-bold mb-2"
+            >Nom du produit:</label
+          >
+          <input
+            type="text"
+            id="item"
+            name="item"
+            class="border rounded-md w-full p-2"
+            required
+          />
+        </div>
+        <div class="mb-4">
+          <label
+            for="quantity"
+            class="block text-gray-700 text-sm font-bold mb-2"
+            >Quantité:</label
+          >
+          <input
+            type="number"
+            id="quantity"
+            name="quantity"
+            class="border rounded-md w-full p-2"
+            required
+          />
+        </div>
+        <div class="mb-4">
+          <label
+            for="unitPrice"
+            class="block text-gray-700 text-sm font-bold mb-2"
+            >Prix unitaire:</label
+          >
+          <input
+            type="number"
+            id="unitPrice"
+            name="unit_price"
+            class="border rounded-md w-full p-2"
+            required
+          />
+        </div>
+        <div class="mb-4">
+          <label
+            for="description"
+            class="block text-gray-700 text-sm font-bold mb-2"
+            >Description du produit:</label
+          >
+          <textarea
+            id="description"
+            name="description"
+            class="border rounded-md w-full p-2"
+            required
+          ></textarea>
+        </div>
+        <div class="flex items-center justify-center">
+          <button
+            type="button"
+            onclick="submitForm()"
+            class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue active:bg-blue-800"
+          >
+            Payer maintenant
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <script>
+      async function submitForm() {
+        const form = document.getElementById("paydunyaForm");
+        const formData = new FormData(form);
+        const response = await fetch(
+          "http://localhost:3000/paydunya-checkout",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(Object.fromEntries(formData)),
+          }
+        );
+        const result = await response.json();
+        window.location.href = result.url; // Redirect to PayDunya checkout URL
+      }
+    </script>
+  </body>
+</html>
